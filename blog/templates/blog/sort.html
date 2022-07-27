@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Новости
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4">
+                    {% if post.image.url != null %}
+                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{post.image.url}}" alt="">
+                    {% endif %}
+                    <h3 class="text-center">{{post.title}}</h3>
+                </div>
+                {% empty %}
+                <h2>Ничего нет</h2>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <form action="{% url 'sort' %}" method="GET">
+                <select name="sort" id="" onchange="{this.form.submit()}">
+                    <option {% if query == '-date' %} selected {% endif %} value="-date">Сначала новые</option>
+                    <option {% if query == 'date' %} selected {% endif %} value="date">Сначала старые</option>
+                    <option {% if query == '-views' %} selected {% endif %} value="-views">Популярные</option>
+                    <option {% if query == 'views' %} selected {% endif %} value="views">Непопулярные</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
